@@ -1,0 +1,152 @@
+html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Tapper</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 16px;
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+    }
+    #app {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+    .balance {
+      font-size: 24px;
+      margin: 20px 0;
+      padding: 15px;
+      background: #2a2a2a;
+      border-radius: 10px;
+    }
+    #tapper-btn {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f5a623, #f54123);
+      color: white;
+      font-size: 24px;
+      border: none;
+      cursor: pointer;
+      margin: 20px 0;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      transition: transform 0.1s;
+    }
+    #tapper-btn:active {
+      transform: scale(0.95);
+    }
+    .tap-animation {
+      animation: pulse 0.3s;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    select {
+      padding: 10px;
+      border-radius: 5px;
+      background: #2a2a2a;
+      color: white;
+      border: none;
+      margin-bottom: 20px;
+    }
+    .shop {
+      display: grid;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .shop-item {
+      padding: 12px;
+      background: #2a2a2a;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .shop-item:hover {
+      background: #3a3a3a;
+    }
+    .referral {
+      margin-top: 30px;
+      padding: 15px;
+      background: #2a2a2a;
+      border-radius: 10px;
+    }
+    #referral-input {
+      padding: 8px;
+      width: 70%;
+      margin-right: 5px;
+      background: #3a3a3a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #apply-referral {
+      padding: 8px 12px;
+      background: #f5a623;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="balance" id="balance">0 BTC</div>
+    
+    <select id="crypto-select">
+      <option value="btc">💰 BTC</option>
+      <option value="eth">⚡ ETH</option>
+      <option value="ton">🟡 TON</option>
+      <option value="usdt">💵 USDT</option>
+    </select>
+    
+    <button id="tapper-btn">TAP!</button>
+    
+    <div>Tap power: <span id="tap-power">x1</span></div>
+    
+    <div class="shop">
+      <div class="shop-item" data-item="power-boost">+1 Power (10 TON)</div>
+      <div class="shop-item" data-item="pro-subscription">PRO Subscription (50 TON)</div>
+    </div>
+    
+    <div class="referral">
+      <input type="text" id="referral-input" placeholder="Enter friend's code">
+      <button id="apply-referral">Apply</button>
+      <div>Your code: <span id="referral-code"></span></div>
+    </div>
+  </div>
+
+  <!-- Подключение скриптов -->
+  <script src="js/app.js"></script>
+  
+  <!-- Telegram WebApp SDK -->
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  
+  <script>
+    // Инициализация Telegram WebApp
+    if (window.Telegram && window.Telegram.WebApp) {
+      Telegram.WebApp.expand();
+      
+      // Обработка реферальной ссылки (например: https://t.me/your_bot?start=ref_12345)
+      const initData = Telegram.WebApp.initData;
+      if (initData) {
+        const refMatch = initData.match(/start=ref_(\w+)/);
+        if (refMatch) {
+          const refCode = refMatch[1];
+          document.getElementById('referral-input').value = refCode;
+          // Здесь можно автоматически применить реферальный код
+        }
+      }
+    }
+  </script>
+</body>
+</html>
