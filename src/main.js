@@ -179,3 +179,4 @@ document.addEventListener('DOMContentLoaded', async () => {
   await fetchPrices();
   init();
 });
+<script type="module" src="/src/main.js"></script>
