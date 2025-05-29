@@ -74,7 +74,7 @@ export function formatRelativeTime(date) {
   if (hours < 24) return `${hours} час назад`;
   
   const days = Math.floor(hours / 24);
-  return `${days} дн назад`;
+  return `${days} день назад`;
 }
 
 /**
