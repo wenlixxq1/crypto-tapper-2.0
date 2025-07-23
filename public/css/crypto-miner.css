@@ -1,0 +1,291 @@
+/* Стили для компонента крипто-майнера */
+.miner-component {
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.miner-title {
+  color: #6c5ce7;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.miner-description {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.miner-controls {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.crypto-selector {
+  margin-bottom: 15px;
+}
+
+.crypto-selector label {
+  display: block;
+  margin-bottom: 5px;
+  color: #666;
+  font-size: 14px;
+}
+
+.crypto-selector select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  font-size: 14px;
+}
+
+.mining-stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.mining-stats .stat {
+  flex: 1;
+  background-color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.stat-label {
+  display: block;
+  color: #666;
+  margin-bottom: 3px;
+}
+
+.stat-value {
+  font-weight: bold;
+  color: #6c5ce7;
+}
+
+.mining-progress-container {
+  margin-bottom: 15px;
+}
+
+.mining-progress {
+  height: 10px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.mining-progress .progress-bar {
+  height: 100%;
+  background-color: #6c5ce7;
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: 12px;
+  color: #666;
+}
+
+.mining-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mining-button:hover {
+  background-color: #5649c0;
+}
+
+.mining-button.active {
+  background-color: #e74c3c;
+}
+
+.mining-button.active:hover {
+  background-color: #c0392b;
+}
+
+.mining-upgrades {
+  margin-bottom: 20px;
+}
+
+.mining-upgrades h3 {
+  margin-bottom: 15px;
+  color: #2d3436;
+  font-size: 16px;
+}
+
+.upgrades-list {
+  display: grid;
+  gap: 10px;
+}
+
+.upgrade-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.upgrade-info {
+  flex: 1;
+}
+
+.upgrade-info h4 {
+  margin: 0 0 5px 0;
+  color: #2d3436;
+  font-size: 14px;
+}
+
+.upgrade-info p {
+  margin: 0;
+  color: #666;
+  font-size: 12px;
+}
+
+.upgrade-button {
+  padding: 8px 12px;
+  background-color: #00b894;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.upgrade-button:hover {
+  background-color: #00a085;
+}
+
+.upgrade-button.shake {
+  animation: shake 0.5s;
+  background-color: #e74c3c;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-5px); }
+  40%, 80% { transform: translateX(5px); }
+}
+
+.purchase-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 184, 148, 0.9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  animation: fade-in 0.3s;
+}
+
+.purchase-effect.fade-out {
+  animation: fade-out 0.5s forwards;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.mining-history {
+  background-color: #f9f9f9;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.mining-history h3 {
+  margin-bottom: 15px;
+  color: #2d3436;
+  font-size: 16px;
+}
+
+.history-list {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 12px;
+}
+
+.history-item.bonus {
+  background-color: #fff8e1;
+}
+
+.history-time {
+  color: #666;
+  margin-right: 10px;
+  min-width: 50px;
+}
+
+.history-amount {
+  font-weight: bold;
+  color: #00b894;
+  margin-right: 10px;
+}
+
+.history-crypto {
+  color: #6c5ce7;
+  font-weight: bold;
+}
+
+.bonus-tag {
+  margin-left: auto;
+  background-color: #ff9800;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .mining-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .upgrade-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .upgrade-info {
+    margin-bottom: 10px;
+  }
+}

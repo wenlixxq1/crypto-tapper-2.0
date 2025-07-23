@@ -1,0 +1,220 @@
+/* Стили для компонента достижений */
+.achievements-component {
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.achievements-title {
+  color: #6c5ce7;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.achievements-progress {
+  margin-bottom: 20px;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #f3f4ff;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #6c5ce7;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+
+.progress-text {
+  text-align: right;
+  font-size: 14px;
+  color: #666;
+}
+
+.achievements-filter {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 5px;
+}
+
+.filter-btn {
+  padding: 8px 15px;
+  background-color: #f3f4ff;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s;
+}
+
+.filter-btn.active {
+  background-color: #6c5ce7;
+  color: white;
+}
+
+.achievements-list {
+  display: grid;
+  gap: 15px;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.achievement-item.unlocked {
+  background-color: #e8f5e9;
+}
+
+.achievement-item.locked {
+  background-color: #f9f9f9;
+  opacity: 0.7;
+}
+
+.achievement-icon {
+  font-size: 24px;
+  margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-name {
+  margin: 0 0 5px 0;
+  color: #2d3436;
+}
+
+.achievement-description {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.achievement-status {
+  margin-left: 15px;
+}
+
+.status-badge {
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.status-badge.unlocked {
+  background-color: #00b894;
+  color: white;
+}
+
+.status-badge.locked {
+  background-color: #dfe6e9;
+  color: #636e72;
+}
+
+.no-achievements {
+  text-align: center;
+  padding: 30px;
+  color: #666;
+}
+
+/* Стили для уведомления о достижении */
+.achievement-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  max-width: 90%;
+  transform: translateX(120%);
+  transition: transform 0.5s ease;
+  z-index: 1000;
+}
+
+.achievement-notification.show {
+  transform: translateX(0);
+}
+
+.achievement-notification.hide {
+  transform: translateX(120%);
+}
+
+.notification-icon {
+  font-size: 30px;
+  margin-right: 15px;
+  background-color: #f3f4ff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-content h3 {
+  margin: 0 0 5px 0;
+  color: #6c5ce7;
+  font-size: 16px;
+}
+
+.notification-content p {
+  margin: 0;
+  color: #2d3436;
+  font-size: 14px;
+}
+
+.reward-text {
+  margin-top: 5px !important;
+  color: #00b894 !important;
+  font-weight: bold;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .achievements-filter {
+    justify-content: center;
+  }
+  
+  .achievement-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .achievement-icon {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  .achievement-status {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}

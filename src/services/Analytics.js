@@ -1,118 +1,193 @@
-javascript
-/**
- * Сервис аналитики для Crypto Tapper
- * Отслеживает: тапы, покупки, рефералы и другие события
- */
+// Локальная аналитика вместо Firebase
 
-class AnalyticsService {
+class Analytics {
   constructor() {
-    this.tapCount = 0;
-    this.sessionStart = Date.now();
-    this.isTelegram = typeof Telegram !== 'undefined' && Telegram.WebApp;
+    this.initialized = false;
+    this.userId = null;
+    this.sessionId = this.generateSessionId();
+    this.events = [];
+    this.maxQueueSize = 20;
+    
+    // Инициализируем аналитику при создании экземпляра
+    this.init();
   }
 
   /**
-   * Отправка события
-   * @param {string} eventName - Название события
-   * @param {object} eventData - Дополнительные данные
+   * Инициализирует аналитику
    */
-  track(eventName, eventData = {}) {
-    const event = {
-      name: eventName,
-      timestamp: Date.now(),
-      ...eventData,
-      platform: this.isTelegram ? 'telegram' : 'web',
-      userId: this.getUserId(),
-      sessionDuration: this.getSessionDuration()
-    };
-
-    // 1. Отправка в Telegram WebApp (если доступно)
-    if (this.isTelegram) {
-      Telegram.WebApp.sendData(JSON.stringify(event));
-    }
-
-    // 2. Отправка на ваш сервер аналитики
-    this.sendToServer(event);
-
-    // 3. Локальное сохранение (для отладки)
-    console.log('[Analytics]', event);
-  }
-
-  /**
-   * Отправка данных на сервер
-   * @param {object} data 
-   */
-  async sendToServer(data) {
+  async init() {
     try {
-      // Замените URL на ваш endpoint
-      const response = await fetch('https://your-analytics-api.com/track', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
-      
-      if (!response.ok) throw new Error('Analytics send failed');
+      // Загружаем сохраненные события
+      this.loadEvents();
+      this.initialized = true;
+      console.log('Local analytics initialized');
     } catch (error) {
-      console.error('Analytics error:', error);
+      console.error('Failed to initialize analytics:', error);
     }
   }
 
   /**
-   * Уникальный ID пользователя
+   * Генерирует уникальный идентификатор сессии
    */
-  getUserId() {
-    if (this.isTelegram) {
-      return Telegram.WebApp.initDataUnsafe.user?.id || 'unknown';
+  generateSessionId() {
+    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+  }
+
+  /**
+   * Устанавливает идентификатор пользователя
+   * @param {string} userId - Идентификатор пользователя
+   */
+  setUserId(userId) {
+    this.userId = userId;
+  }
+
+  /**
+   * Отслеживает событие
+   * @param {string} eventName - Название события
+   * @param {Object} params - Параметры события
+   */
+  track(eventName, params = {}) {
+    // Создаем событие
+    const eventParams = {
+      ...params,
+      timestamp: Date.now(),
+      sessionId: this.sessionId
+    };
+    
+    // Если установлен идентификатор пользователя, добавляем его
+    if (this.userId) {
+      eventParams.userId = this.userId;
     }
     
-    let userId = localStorage.getItem('analytics_user_id');
-    if (!userId) {
-      userId = 'web_' + Math.random().toString(36).substring(2, 11);
-      localStorage.setItem('analytics_user_id', userId);
+    // Добавляем событие в очередь
+    this.queueEvent(eventName, eventParams);
+    
+    // Если очередь достигла максимального размера, отправляем события
+    if (this.events.length >= this.maxQueueSize) {
+      this.flushEvents();
     }
-    return userId;
+    
+    // В режиме отладки выводим событие в консоль
+    if (localStorage.getItem('DEBUG_MODE') === 'true') {
+      console.log('Analytics event:', eventName, eventParams);
+    }
   }
 
   /**
-   * Длительность текущей сессии
+   * Добавляет событие в очередь
+   * @param {string} eventName - Название события
+   * @param {Object} params - Параметры события
    */
-  getSessionDuration() {
-    return (Date.now() - this.sessionStart) / 1000;
+  queueEvent(eventName, params) {
+    this.events.push({ name: eventName, params });
+    
+    // Сохраняем события в localStorage
+    this.saveEvents();
   }
 
-  // === Специальные методы для трекинга ===
+  /**
+   * Сохраняет события в localStorage
+   */
+  saveEvents() {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        localStorage.setItem('analytics_events', JSON.stringify(this.events));
+      } catch (error) {
+        console.error('Failed to save events to localStorage:', error);
+      }
+    }
+  }
 
-  trackTap(cryptoType, amount) {
-    this.tapCount++;
-    this.track('tap', {
-      crypto: cryptoType,
-      amount: amount,
-      tapCount: this.tapCount
+  /**
+   * Загружает события из localStorage
+   */
+  loadEvents() {
+    if (typeof localStorage !== 'undefined') {
+      try {
+        const events = localStorage.getItem('analytics_events');
+        if (events) {
+          this.events = JSON.parse(events);
+        }
+      } catch (error) {
+        console.error('Failed to load events from localStorage:', error);
+      }
+    }
+  }
+
+  /**
+   * Отправляет накопленные события
+   */
+  async flushEvents() {
+    if (!this.initialized || this.events.length === 0) {
+      return;
+    }
+    
+    try {
+      // Сохраняем события в localStorage
+      this.saveEvents();
+      
+      // В режиме отладки выводим статистику
+      if (localStorage.getItem('DEBUG_MODE') === 'true') {
+        console.log('Analytics stats:', this.getStats());
+      }
+    } catch (error) {
+      console.error('Failed to flush events:', error);
+    }
+  }
+
+  /**
+   * Отслеживает просмотр экрана
+   * @param {string} screenName - Название экрана
+   * @param {Object} params - Дополнительные параметры
+   */
+  trackScreen(screenName, params = {}) {
+    this.track('screen_view', {
+      screen_name: screenName,
+      ...params
     });
   }
 
-  trackPurchase(itemId, price) {
-    this.track('purchase', {
-      item: itemId,
-      price: price,
-      currency: 'TON'
+  /**
+   * Отслеживает ошибку
+   * @param {Error|string} error - Объект ошибки или сообщение
+   * @param {Object} params - Дополнительные параметры
+   */
+  trackError(error, params = {}) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorStack = error instanceof Error ? error.stack : null;
+    
+    this.track('error', {
+      error_message: errorMessage,
+      error_stack: errorStack,
+      ...params
     });
   }
 
-  trackReferral(referralCode) {
-    this.track('referral_apply', {
-      code: referralCode
+  /**
+   * Получает статистику по событиям
+   * @returns {Object} Статистика
+   */
+  getStats() {
+    const stats = {
+      totalEvents: this.events.length,
+      eventTypes: {},
+      sessionCount: new Set(this.events.map(e => e.params.sessionId)).size,
+      firstEventTime: this.events.length > 0 ? Math.min(...this.events.map(e => e.params.timestamp)) : null,
+      lastEventTime: this.events.length > 0 ? Math.max(...this.events.map(e => e.params.timestamp)) : null
+    };
+    
+    // Подсчитываем количество событий каждого типа
+    this.events.forEach(event => {
+      if (!stats.eventTypes[event.name]) {
+        stats.eventTypes[event.name] = 0;
+      }
+      stats.eventTypes[event.name]++;
     });
-  }
-
-  trackSubscription(tier) {
-    this.track('subscription', {
-      tier: tier
-    });
+    
+    return stats;
   }
 }
 
-// Создаем singleton экземпляр
-const analytics = new AnalyticsService();
-
+// Экспортируем singleton
+const analytics = new Analytics();
 export default analytics;

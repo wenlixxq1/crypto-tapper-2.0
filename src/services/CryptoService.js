@@ -1,4 +1,6 @@
 javascript
+import coinCapService from './CoinCapService.js';
+
 export class CryptoService {
   constructor() {
     this.cryptos = {
@@ -105,6 +107,9 @@ export class CryptoService {
     
     // Первое обновление сразу при создании
     this.updateCryptoRates();
+    
+    // Получаем актуальные курсы с API
+    this.fetchRealRates();
   }
 
   updateCryptoRates() {
@@ -134,6 +139,28 @@ export class CryptoService {
     });
     
     this.lastUpdateTime = now;
+  }
+  
+  /**
+   * Получает актуальные курсы криптовалют с API
+   */
+  async fetchRealRates() {
+    try {
+      const cryptoSymbols = Object.keys(this.cryptos);
+      const rates = await coinCapService.getCurrentRates(cryptoSymbols);
+      
+      // Обновляем курсы в нашем сервисе
+      Object.keys(rates).forEach(crypto => {
+        if (this.cryptos[crypto]) {
+          this.cryptos[crypto].rate = rates[crypto];
+        }
+      });
+      
+      console.log('Updated crypto rates from CoinCap API:', rates);
+    } catch (error) {
+      console.error('Failed to fetch real crypto rates:', error);
+      // В случае ошибки продолжаем использовать симулированные курсы
+    }
   }
 
   getAvailableCryptos(userBalance) {
