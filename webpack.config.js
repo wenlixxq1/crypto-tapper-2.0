@@ -25,7 +25,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -81,7 +81,7 @@ module.exports = (env, argv) => {
       })
     ],
     resolve: {
-      extensions: ['.js']
+      extensions: ['.js', '.jsx']
     },
     optimization: {
       splitChunks: {

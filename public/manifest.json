@@ -2,20 +2,15 @@
   "name": "Крипто Тапер",
   "short_name": "КриптоТап",
   "description": "Тапай и зарабатывай виртуальную криптовалюту!",
-  "start_url": "/",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6c5ce7",
   "icons": [
     {
-      "src": "images/icon-192.png",
+      "src": "images/icon-placeholder.html",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "images/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
+      "type": "text/html"
     }
   ]
 }
