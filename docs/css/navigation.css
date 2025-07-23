@@ -1,0 +1,274 @@
+/* Стили для навигации */
+.navigation {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.nav-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  width: 16.66%;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.nav-tab.active {
+  color: #6c5ce7;
+}
+
+.nav-icon {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.nav-text {
+  font-size: 10px;
+  text-align: center;
+}
+
+.content {
+  padding-bottom: 70px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Стили для модального окна ежедневного бонуса */
+.daily-bonus-modal .modal-content {
+  max-width: 350px;
+}
+
+.bonus-icon {
+  font-size: 50px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.modal-body h4 {
+  text-align: center;
+  color: #6c5ce7;
+  margin-bottom: 10px;
+}
+
+.modal-body p {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.streak-info {
+  background-color: #f3f4ff;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.streak-progress {
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
+.streak-day {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dfe6e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.streak-day.active {
+  background-color: #6c5ce7;
+}
+
+.streak-day.active::after {
+  content: "✓";
+  color: white;
+  font-weight: bold;
+}
+
+.streak-hint {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.claim-bonus-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #6c5ce7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.claim-bonus-btn:hover {
+  background-color: #5649c0;
+}
+
+.bonus-effect {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 30px;
+  font-weight: bold;
+  color: #6c5ce7;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 20px 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  animation: pulse 1s infinite;
+  z-index: 1000;
+}
+
+.bonus-effect.fade-out {
+  animation: fade-out 1s forwards;
+}
+
+@keyframes pulse {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.1); }
+  100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  to { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+}
+
+/* Темная тема для Telegram */
+body.dark {
+  background-color: #1a1a1a;
+  color: #f5f6fa;
+}
+
+body.dark .navigation {
+  background-color: #2d3436;
+}
+
+body.dark .nav-tab {
+  color: #dfe6e9;
+}
+
+body.dark .nav-tab.active {
+  color: #a29bfe;
+}
+
+body.dark .tapper-container,
+body.dark .shop-component,
+body.dark .wallet-component,
+body.dark .referral-component,
+body.dark .achievements-component,
+body.dark .miner-component,
+body.dark .modal-content {
+  background-color: #2d3436;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .tapper-title,
+body.dark .shop-title,
+body.dark .wallet-title,
+body.dark .referral-title,
+body.dark .achievements-title,
+body.dark .miner-title {
+  color: #a29bfe;
+}
+
+body.dark .upgrade-item,
+body.dark .achievement-item.locked,
+body.dark .crypto-item,
+body.dark .miner-controls,
+body.dark .mining-history {
+  background-color: #3d4246;
+}
+
+body.dark .upgrade-name,
+body.dark .achievement-name,
+body.dark .crypto-name {
+  color: #f5f6fa;
+}
+
+body.dark .upgrade-description,
+body.dark .achievement-description,
+body.dark .crypto-symbol {
+  color: #b2bec3;
+}
+
+body.dark .stat {
+  background-color: #3d4246;
+}
+
+body.dark .stat-label {
+  color: #b2bec3;
+}
+
+body.dark .stat-value {
+  color: #a29bfe;
+}
+
+body.dark .crypto-selector select,
+body.dark .search-input,
+body.dark .sort-select {
+  background-color: #3d4246;
+  border-color: #4d5656;
+  color: #f5f6fa;
+}
+
+body.dark .history-item {
+  border-bottom-color: #4d5656;
+}
+
+body.dark .history-time {
+  color: #b2bec3;
+}
+
+body.dark .streak-info {
+  background-color: #3d4246;
+}
+
+body.dark .streak-day {
+  background-color: #4d5656;
+}
+
+body.dark .streak-day.active {
+  background-color: #a29bfe;
+}
+
+body.dark .streak-hint {
+  color: #b2bec3;
+}
+
+body.dark .modal-header {
+  border-bottom-color: #4d5656;
+}
+
+body.dark .close-modal {
+  color: #b2bec3;
+}
+
+/* Адаптивность */
+@media (max-width: 480px) {
+  .nav-icon {
+    font-size: 18px;
+  }
+  
+  .nav-text {
+    font-size: 9px;
+  }
+}
