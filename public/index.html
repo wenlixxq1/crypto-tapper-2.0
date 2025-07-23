@@ -27,14 +27,13 @@ html
   <!-- Telegram WebApp SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   
-  <!-- Подключение скриптов -->
-  <script src="js/app.js" type="module"></script>
+  <!-- Подключение скриптов происходит через webpack -->
   
   <!-- Регистрация Service Worker -->
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('./service-worker.js')
           .then(registration => {
             console.log('ServiceWorker registered: ', registration);
           })
