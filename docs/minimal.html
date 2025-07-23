@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Минимальная версия Крипто Тапер</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; }
+    .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+    .header { text-align: center; margin-bottom: 20px; }
+    .tapper { background-color: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .tap-button { display: block; width: 200px; height: 200px; margin: 0 auto; border-radius: 50%; background: linear-gradient(135deg, #6c5ce7, #a29bfe); color: white; font-size: 24px; border: none; cursor: pointer; transition: transform 0.1s; }
+    .tap-button:active { transform: scale(0.95); }
+    .stats { display: flex; justify-content: space-between; margin-top: 20px; }
+    .stat { text-align: center; flex: 1; }
+    .stat-value { font-size: 24px; font-weight: bold; }
+    .crypto-list { margin-top: 20px; }
+    .crypto-item { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Крипто Тапер</h1>
+      <p>Тапай и зарабатывай виртуальную криптовалюту!</p>
+    </div>
+    
+    <div class="tapper">
+      <button id="tap-button" class="tap-button">TAP!</button>
+      
+      <div class="stats">
+        <div class="stat">
+          <div>Сила тапа</div>
+          <div id="tap-power" class="stat-value">1</div>
+        </div>
+        <div class="stat">
+          <div>Всего тапов</div>
+          <div id="total-taps" class="stat-value">0</div>
+        </div>
+      </div>
+      
+      <div class="crypto-list">
+        <h3>Ваша криптовалюта</h3>
+        <div id="crypto-list">
+          <div class="crypto-item">
+            <span>BTC</span>
+            <span id="btc-amount">0.00000000</span>
+          </div>
+          <div class="crypto-item">
+            <span>ETH</span>
+            <span id="eth-amount">0.00000000</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Простая модель данных
+    const userData = {
+      tapPower: 1,
+      totalTaps: 0,
+      crypto: {
+        BTC: 0,
+        ETH: 0
+      }
+    };
+
+    // Функция для обновления интерфейса
+    function updateUI() {
+      document.getElementById('tap-power').textContent = userData.tapPower;
+      document.getElementById('total-taps').textContent = userData.totalTaps;
+      document.getElementById('btc-amount').textContent = userData.crypto.BTC.toFixed(8);
+      document.getElementById('eth-amount').textContent = userData.crypto.ETH.toFixed(8);
+    }
+
+    // Функция для обработки тапа
+    function handleTap() {
+      userData.totalTaps += 1;
+      
+      // Случайно выбираем криптовалюту
+      const crypto = Math.random() < 0.7 ? 'BTC' : 'ETH';
+      const amount = userData.tapPower * 0.00001;
+      
+      userData.crypto[crypto] += amount;
+      
+      // Анимация тапа
+      const button = document.getElementById('tap-button');
+      button.style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        button.style.transform = 'scale(1)';
+      }, 100);
+      
+      // Обновляем интерфейс
+      updateUI();
+      
+      // Сохраняем данные
+      localStorage.setItem('crypto_tapper_data', JSON.stringify(userData));
+    }
+
+    // Инициализация
+    document.addEventListener('DOMContentLoaded', () => {
+      // Загружаем данные из localStorage
+      const savedData = localStorage.getItem('crypto_tapper_data');
+      if (savedData) {
+        try {
+          const parsedData = JSON.parse(savedData);
+          userData.tapPower = parsedData.tapPower || 1;
+          userData.totalTaps = parsedData.totalTaps || 0;
+          userData.crypto = parsedData.crypto || { BTC: 0, ETH: 0 };
+        } catch (error) {
+          console.error('Ошибка при загрузке данных:', error);
+        }
+      }
+      
+      // Обновляем интерфейс
+      updateUI();
+      
+      // Добавляем обработчик события для кнопки
+      document.getElementById('tap-button').addEventListener('click', handleTap);
+    });
+  </script>
+</body>
+</html>

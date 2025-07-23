@@ -1,9 +1,10 @@
-import { Tapper } from './components/Tapper.jsx';
-import { Shop } from './components/Shop.jsx';
-import { Wallet } from './components/Wallet.jsx';
-import { Referral } from './components/Referral.jsx';
-import { Achievements } from './components/Achievements.jsx';
-import { CryptoMiner } from './components/CryptoMiner.jsx';
+// Импортируем компоненты без указания расширения .jsx
+import { Tapper } from './components/Tapper';
+import { Shop } from './components/Shop';
+import { Wallet } from './components/Wallet';
+import { Referral } from './components/Referral';
+import { Achievements } from './components/Achievements';
+import { CryptoMiner } from './components/CryptoMiner';
 import { CryptoService } from './services/CryptoService.js';
 import UserService from './services/UserService.js';
 import AchievementService from './services/AchievementService.js';

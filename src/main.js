@@ -1,8 +1,15 @@
-import { App } from './App.js';
+// Используем упрощенную версию приложения для отладки
+import SimpleApp from './SimpleApp.js';
 
 // Запускаем приложение при загрузке страницы
 document.addEventListener('DOMContentLoaded', () => {
-  new App();
+  console.log('Страница загружена, запускаем SimpleApp');
+  try {
+    window.app = new SimpleApp();
+    console.log('SimpleApp успешно создан');
+  } catch (error) {
+    console.error('Ошибка при создании SimpleApp:', error);
+  }
 });
 
 // Обработка ошибок
